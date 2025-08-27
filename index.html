@@ -1,42 +1,437 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Ketner Lake</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ketner Lake - Bespoke Software Development</title>
   <style>
-    html {
-      height: 100%;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      align-items: center;
-      background-color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #fafafa;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(45deg, #333, #555);
+      color: white;
+      padding: 15px 30px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid #666;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #444, #666);
+    }
+
+    /* Services Section */
+    .services {
+      padding: 80px 0;
+      background: white;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+      color: #1a1a1a;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .service-card {
+      background: #f8f9fa;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .service-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #1a1a1a;
+    }
+
+    /* Products Section */
+    .products {
+      padding: 80px 0;
+      background: #f8f9fa;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
       display: flex;
       flex-direction: column;
-      height: 100%;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .product-screenshot {
+      width: 100%;
+      height: 220px;
+      background: #f8f9fa;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      margin: 0;
-      padding: 0;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .product-screenshot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .product-card:hover .product-screenshot img {
+      transform: scale(1.05);
+    }
+
+    .product-screenshot-placeholder {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%);
+      color: #555;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px;
+      border: 2px dashed #ccc;
+    }
+
+    .product-header {
+      padding: 25px;
+      background: linear-gradient(45deg, #1a1a1a, #333);
+      color: white;
+    }
+
+    .product-header h3 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .product-header p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    .product-body {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-link {
+      display: inline-block;
+      color: #333;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 15px;
+      transition: color 0.2s;
+    }
+
+    .product-link:hover {
+      color: #1a1a1a;
+    }
+
+    /* About Section */
+    .about {
+      padding: 80px 0;
+      background: white;
+      text-align: center;
+    }
+
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+
+    /* Contact Section */
+    .contact {
+      padding: 80px 0;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .contact h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .contact p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .header p {
+        font-size: 1.1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .products-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+      
+      .product-screenshot {
+        height: 200px;
+      }
     }
   </style>
-
 </head>
 <body>
+  <!-- Header -->
+  <section class="header">
+    <div class="container">
+      <h1>Ketner Lake</h1>
+      <p>Bespoke Software Development</p>
+      <a href="#contact" class="cta-button">Get Started</a>
+    </div>
+  </section>
 
-  <p>Ketner Lake</p>
+  <!-- Services -->
+  <section class="services">
+    <div class="container">
+      <h2 class="section-title">What We Do</h2>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">🚀</div>
+          <h3>Full-Stack Development</h3>
+          <p>Modern web applications built with cutting-edge technologies. From concept to deployment, we handle the entire development lifecycle.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🤖</div>
+          <h3>AI Integration</h3>
+          <p>Leverage artificial intelligence to enhance your applications. We integrate AI-powered features that provide real value to your users.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📱</div>
+          <h3>Mobile & Web Apps</h3>
+          <p>Responsive, user-friendly applications that work seamlessly across all devices and platforms.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⚡</div>
+          <h3>API Development</h3>
+          <p>Robust, scalable APIs and serverless functions that power your applications and integrations.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🔧</div>
+          <h3>System Integration</h3>
+          <p>Connect disparate systems and automate workflows to streamline your business operations and improve efficiency.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3>Cloud Solutions</h3>
+          <p>Scalable cloud infrastructure and deployment strategies that grow with your business needs and user base.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <ul>
-    <li><a href="https://annoawesome.com">Anno Awesome</a></li>
-    <li><a href="https://stogieawesome.com">Stogie Awesome</a></li>
-    <li><a href="https://flavorawesome.com">Flavor Awesome</a></li>
-    <li><a href="https://fastinghours.com">Fasting Hours</a></li>
-    <li><a href="https://avocado.dev">Avocado</a></li>
-    <li><a href="https://humidor.io">Humidor</a></li>
-    <li><a href="https://kevinhoyt.com">Kevin Hoyt</a></li>
-  </ul>
+  <!-- Products -->
+  <section class="products">
+    <div class="container">
+      <h2 class="section-title">Our Work</h2>
+      <div class="products-grid">
 
+        <div class="product-card">
+          <div class="product-screenshot">
+            <!-- Replace with actual screenshot: <img src="screenshots/fasting-hours.png" alt="Fasting Hours Screenshot"> -->
+            <div class="product-screenshot-placeholder">
+              ⏰<br>Screenshot of Fasting Hours<br>Timer Interface
+            </div>
+          </div>
+          <div class="product-header">
+            <h3>Fasting Hours</h3>
+            <p>Simple Fast Tracking Centered on You</p>
+          </div>
+          <div class="product-body">
+            <p>An intuitive intermittent fasting tracker that focuses on simplicity and user-centered design. Track your fasting journey without complexity or clutter.</p>
+            <a href="https://fastinghours.com" class="product-link">Visit Fasting Hours →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-screenshot">
+            <!-- Replace with actual screenshot: <img src="screenshots/flavor-awesome.png" alt="Flavor Awesome Screenshot"> -->
+            <div class="product-screenshot-placeholder">
+              🍽️<br>Screenshot of Flavor Awesome<br>Food Discovery Interface
+            </div>
+          </div>
+          <div class="product-header">
+            <h3>Flavor Awesome</h3>
+            <p>For People with a Mouth</p>
+          </div>
+          <div class="product-body">
+            <p>A delightful food discovery and recipe application that helps food enthusiasts explore new flavors and cuisines. Perfect for anyone passionate about culinary experiences.</p>
+            <a href="https://flavorawesome.com" class="product-link">Visit Flavor Awesome →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-screenshot">
+            <!-- Replace with actual screenshot: <img src="screenshots/anno-awesome.png" alt="Anno Awesome Screenshot"> -->
+            <div class="product-screenshot-placeholder">
+              📅<br>Screenshot of Anno Awesome<br>Year View Interface
+            </div>
+          </div>
+          <div class="product-header">
+            <h3>Anno Awesome</h3>
+            <p>The Missing Year View</p>
+          </div>
+          <div class="product-body">
+            <p>A comprehensive calendar and planning application that provides the year view that's missing from most calendar apps. Designed for users who think in terms of annual goals and long-term planning.</p>
+            <a href="https://annoawesome.com" class="product-link">Visit Anno Awesome →</a>
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-screenshot">
+            <!-- Replace with actual screenshot: <img src="screenshots/stogie-awesome.png" alt="Stogie Awesome Screenshot"> -->
+            <div class="product-screenshot-placeholder">
+              🚬<br>Screenshot of Stogie Awesome<br>Recommendation Interface
+            </div>
+          </div>
+          <div class="product-header">
+            <h3>Stogie Awesome</h3>
+            <p>AI-powered Cigar Recommendation</p>
+          </div>
+          <div class="product-body">
+            <p>Sophisticated cigar recommendation engine powered by AI. Helps both novice and expert cigar enthusiasts discover new cigars tailored to their preferences.</p>
+            <a href="https://stogieawesome.com" class="product-link">Visit Stogie Awesome →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about">
+    <div class="container">
+      <h2 class="section-title">Why Choose Ketner Lake?</h2>
+      <div class="about-content">
+        <p>We specialize in creating custom software solutions that solve real problems. Our portfolio demonstrates our ability to build diverse applications across different industries and use cases.</p>
+        <p>From AI-powered recommendations to elegant user interfaces, we bring technical expertise and creative problem-solving to every project.</p>
+        <p>Ready to bring your software idea to life? Let's discuss how we can help you build something amazing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <h2>Ready to Get Started?</h2>
+      <p>Let's discuss your project and see how we can help bring your vision to reality.</p>
+      <a href="contact.html" class="cta-button">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2024 Ketner Lake. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
-</html> 
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Ketner Lake - API</title>
+
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      background-color: #ffffff;
+      height: 100%;
+    }
+  </style>
+
+</head>
+<body>
+
+  <button id="hello" type="button">Hello</button>
+  <br>
+  <button id="message" type="button">Message</button>  
+  <br>
+  <button id="novice" type="button">Cigar: Novice</button>
+  <button id="proficient" type="button">Cigar: Proficient</button>
+  <button id="expert" type="button">Cigar: Expert</button>  
+  <br>
+  <button id="hunt" type="button">Hunt: Chat</button><br>       
+  <textarea id="chat" style="height: 160px; width: 320px;"></textarea>
+  <br>
+  <button id="full" type="button">Weather: Full</button>      
+  <button id="summary" type="button">Weather: Summary</button>       
+
+  <script type="module">
+    import {KetnerLake} from "/script/ketnerlake.js";
+
+    const hello_button = document.querySelector( '#hello' );
+    hello_button.addEventListener( 'click', async () => {
+      const result = await KetnerLake.hello( 'Kevin' );
+      console.log( result );
+    } );
+
+    const message_button = document.querySelector( '#message' );
+    message_button.addEventListener( 'click', async () => {
+      const id = await KetnerLake.message( 
+        'parkerkrhoyt@gmail.com',
+        'Testing Subject',        
+        'This is a test of the body.',
+        'Fasting Hours Source', 
+        'Test Category'
+      );
+      console.log( id );
+    } );
+
+    const novice_button = document.querySelector( '#novice' );
+    novice_button.addEventListener( 'click', async () => {
+      const recommendations = await KetnerLake.cigar.novice();
+      console.log( recommendations );
+    } );
+
+    const proficient_button = document.querySelector( '#proficient' );
+    proficient_button.addEventListener( 'click', async () => {
+      const recommendations = await KetnerLake.cigar.proficient( ['Nica Rustica Gordo', 'Nica Rustica Adobe', 'Charter Oak'] );
+      console.log( recommendations );
+    } );    
+
+    const expert_button = document.querySelector( '#expert' );
+    expert_button.addEventListener( 'click', async () => {
+      const recommendations = await KetnerLake.cigar.expert( ['Nica Rustica Gordo', 'Nica Rustica Adobe', 'Charter Oak'] );
+      console.log( recommendations );
+    } );
+
+    const hunt_chat = document.querySelector( '#hunt' );
+    const hunt_output = document.querySelector( '#chat' );
+    hunt_chat.addEventListener( 'click', async () => {
+      KetnerLake.hunt.chat( 'When is elk season in Unit 12?', hunt_output );
+    } );    
+    
+    const weather_full = document.querySelector( '#full' );
+    weather_full.addEventListener( 'click', async () => {
+      const conditions = await KetnerLake.weather.full( 39.4973603, -104.7810499 );
+      console.log( conditions );
+    } );    
+
+    const weather_summary = document.querySelector( '#summary' );
+    weather_summary.addEventListener( 'click', async () => {
+      const conditions = await KetnerLake.weather.summary( 39.4973603, -104.7810499 );
+      console.log( conditions );
+    } );        
+  </script>
+
+</body>
+</html> 
