@@ -1,12 +1,14 @@
 export const KetnerLake = {
+  
+  BASE_URL: 'https://ketnerlake.com/api',
 
   cigar: {
     novice() {
-      return fetch( `/api/cigar/novice` )
+      return fetch( `${this.BASE_URL}/cigar/novice` )
       .then( ( response ) => response.json() )
     },
     proficient( favorites ) {
-      return fetch( '/api/cigar/proficient', {
+      return fetch( `${this.BASE_URL}/cigar/proficient`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -16,7 +18,7 @@ export const KetnerLake = {
       .then( ( response ) => response.json() );           
     },
     expert( favorites ) {
-      return fetch( '/api/cigar/expert', {
+      return fetch( `${this.BASE_URL}/cigar/expert`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ export const KetnerLake = {
   },
 
   hello( name = null ) {
-    let url = '/api/hello';
+    let url = `${this.BASE_URL}/hello`;
 
     if( name !== null ) {
       url = `${url}?name=${name}`;
@@ -43,7 +45,7 @@ export const KetnerLake = {
       output.textContent = null;
       output.classList.add( 'streaming' );
 
-      return fetch( `/api/hunt/chat?question=${question}` )
+      return fetch( `${this.BASE_URL}/hunt/chat?question=${question}` )
       .then( ( response ) => response.body.getReader() )
       .then( async ( reader ) => {
         const decoder = new TextDecoder();
@@ -63,7 +65,7 @@ export const KetnerLake = {
   },
 
   message( email, subject, body, source = null, category = null ) {
-    return fetch( '/api/message', {
+    return fetch( `${this.BASE_URL}/message`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -75,11 +77,11 @@ export const KetnerLake = {
 
   weather: {
     full( latitude, longitude ) {
-      return fetch( `/api/weather/full?location=${latitude},${longitude}` )
+      return fetch( `${this.BASE_URL}/weather/full?location=${latitude},${longitude}` )
       .then( ( response ) => response.json() );
     },  
     summary( latitude, longitude ) {
-      return fetch( `/api/weather/summary?location=${latitude},${longitude}` )
+      return fetch( `${this.BASE_URL}/weather/summary?location=${latitude},${longitude}` )
       .then( ( response ) => response.json() );
     }
   }
