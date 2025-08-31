@@ -1,7 +1,11 @@
 import {Resend} from 'resend';
 
 export default async ( request, context ) => {
-  const allowed = ['https://fastinghours.com', 'https://flavorawesome.com'];
+  const allowed = [
+    'https://fastinghours.com', 
+    'https://flavorawesome.com',
+    'http://localhost:8888'
+  ];
   const origin = request.headers.origin;
 
   let headers = {
