@@ -11,7 +11,11 @@ export default async ( request, context ) => {
       html: `Email: ${body.email}<br>Category: ${body.category}<br>Message:<br>${body.message}`
     } );
 
-    return new Response( response.data.id );
+    return new Response( response.data.id, {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    } );
   } catch ( error ) {
     return new Response( error.toString(), {
       status: 500
