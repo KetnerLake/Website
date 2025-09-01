@@ -5,12 +5,11 @@ export default ( request, context ) => {
     'http://localhost:8888',
     'http://localhost:8000'
   ];
-  const origin = request.headers.origin;
-  console.log( request.headers.origin );
+  const origin = request.headers.get( 'Origin' );
 
   let headers = {
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    'Access-Control-Allow-Methods': 'OPTIONS, GET',
+    'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin'
   };
 
   if( allowed.includes( origin ) ) {
@@ -21,7 +20,7 @@ export default ( request, context ) => {
     return {
       statusCode: 200,
       headers,
-      body: "OK",
+      body: 'OK'
     };
   }
 
