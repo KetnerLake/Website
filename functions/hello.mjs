@@ -16,6 +16,8 @@ export default ( request, context ) => {
     headers['Access-Control-Allow-Origin'] = origin;
   }
 
+  console.log( header );
+
   if( request.method === 'OPTIONS' ) {
     return {
       statusCode: 200,
