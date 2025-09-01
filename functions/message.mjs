@@ -19,11 +19,9 @@ export default async ( request, context ) => {
   }
 
   if( request.method === 'OPTIONS' ) {
-    return {
-      statusCode: 200,
-      headers,
-      body: 'OK'
-    };
+    return new Response( 'OK', {
+      headers
+    } );
   } 
 
   try {
