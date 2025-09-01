@@ -2,9 +2,11 @@ export default ( request, context ) => {
   const allowed = [
     'https://fastinghours.com', 
     'https://flavorawesome.com',
-    'http://localhost:8888'
+    'http://localhost:8888',
+    'http://localhost:8000'
   ];
   const origin = request.headers.origin;
+  console.log( request.headers.origin );
 
   let headers = {
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
@@ -15,7 +17,7 @@ export default ( request, context ) => {
     headers['Access-Control-Allow-Origin'] = origin;
   }
 
-  if( request.httpMethod === 'OPTIONS' ) {
+  if( request.method === 'OPTIONS' ) {
     return {
       statusCode: 200,
       headers,
