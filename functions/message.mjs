@@ -10,7 +10,7 @@ export default async ( request, context ) => {
   const origin = request.headers.get( 'Origin' );
 
   let headers = {
-    'Access-Control-Allow-Methods': 'OPTIONS, GET',
+    'Access-Control-Allow-Methods': 'OPTIONS, POST',
     'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin'
   };
 
