@@ -16,8 +16,6 @@ export default ( request, context ) => {
     headers['Access-Control-Allow-Origin'] = origin;
   }
 
-  console.log( headers );
-
   if( request.method === 'OPTIONS' ) {
     return {
       statusCode: 200,
@@ -30,7 +28,9 @@ export default ( request, context ) => {
     const url = new URL( request.url );
     const name = url.searchParams.get( 'name' ) || 'World';
 
-    return new Response( `Hello, ${name}` );
+    return new Response( `Hello, ${name}`, {
+      headers
+    } );
   } catch ( error ) {
     return new Response( error.toString(), {
       status: 500
