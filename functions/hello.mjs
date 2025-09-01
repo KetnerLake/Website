@@ -1,9 +1,7 @@
 export default ( request, context ) => {
   const allowed = [
     'https://fastinghours.com', 
-    'https://flavorawesome.com',
-    'http://localhost:8888',
-    'http://localhost:8000'
+    'https://flavorawesome.com'
   ];
   const origin = request.headers.get( 'Origin' );
 
