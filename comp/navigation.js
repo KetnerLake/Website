@@ -25,6 +25,7 @@ export default class KetnerLakeNavigation extends HTMLElement {
           align-items: center;
           background: none;
           border: none;
+          color: var( --primary-text );
           cursor: pointer;          
           display: flex;
           height: 40px;
