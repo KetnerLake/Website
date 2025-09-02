@@ -1,4 +1,4 @@
-export default class HoytNavigation extends HTMLElement {
+export default class KetnerLakeNavigation extends HTMLElement {
   constructor() {
     super();
 
@@ -265,4 +265,4 @@ export default class HoytNavigation extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-navigation', HoytNavigation );
+window.customElements.define( 'lake-navigation', KetnerLakeNavigation );

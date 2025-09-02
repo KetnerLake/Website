@@ -1,4 +1,4 @@
-export default class HoytFooter extends HTMLElement {
+export default class KetnerLakeFooter extends HTMLElement {
   constructor() {
     super();
 
@@ -186,4 +186,4 @@ export default class HoytFooter extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-footer', HoytFooter );
+window.customElements.define( 'lake-footer', KetnerLakeFooter );

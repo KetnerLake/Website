@@ -1,4 +1,4 @@
-export default class HoytSection extends HTMLElement {
+export default class KetnerLakeSection extends HTMLElement {
   constructor() {
     super();
 
@@ -150,4 +150,4 @@ export default class HoytSection extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-section', HoytSection );
+window.customElements.define( 'lake-section', KetnerLakeSection );

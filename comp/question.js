@@ -1,4 +1,4 @@
-export default class HoytQuestion extends HTMLElement {
+export default class KetnerLakeQuestion extends HTMLElement {
   constructor() {
     super();
 
@@ -116,4 +116,4 @@ export default class HoytQuestion extends HTMLElement {
   }
 }
 
-window.customElements.define( 'krh-question', HoytQuestion );
+window.customElements.define( 'lake-question', KetnerLakeQuestion );

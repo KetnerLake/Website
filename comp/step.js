@@ -1,4 +1,4 @@
-export default class HoytStep extends HTMLElement {
+export default class KetnerLakeStep extends HTMLElement {
   constructor() {
     super();
 
@@ -140,4 +140,4 @@ export default class HoytStep extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-step', HoytStep );
+window.customElements.define( 'lake-step', KetnerLakeStep );

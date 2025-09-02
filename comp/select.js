@@ -1,4 +1,4 @@
-export default class HoytSelect extends HTMLElement {
+export default class KetnerLakeSelect extends HTMLElement {
   constructor() {
     super();
 
@@ -202,4 +202,4 @@ export default class HoytSelect extends HTMLElement {
   }
 }
 
-window.customElements.define( 'krh-select', HoytSelect );
+window.customElements.define( 'lake-select', KetnerLakeSelect );

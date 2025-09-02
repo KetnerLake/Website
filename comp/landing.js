@@ -1,4 +1,4 @@
-export default class HoytLanding extends HTMLElement {
+export default class KetnerLakeLanding extends HTMLElement {
   constructor() {
     super();
 
@@ -154,4 +154,4 @@ export default class HoytLanding extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-landing', HoytLanding );
+window.customElements.define( 'lake-landing', KetnerLakeLanding );

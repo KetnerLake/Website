@@ -1,4 +1,4 @@
-export default class HoytBenefitItem extends HTMLElement {
+export default class KetnerLakeBenefitItem extends HTMLElement {
   constructor() {
     super();
 
@@ -138,4 +138,4 @@ export default class HoytBenefitItem extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-benefit-item', HoytBenefitItem );
+window.customElements.define( 'lake-benefit-item', KetnerLakeBenefitItem );

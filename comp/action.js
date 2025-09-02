@@ -1,4 +1,4 @@
-export default class HoytAction extends HTMLElement {
+export default class KetnerLakeAction extends HTMLElement {
   constructor() {
     super();
 
@@ -155,4 +155,4 @@ export default class HoytAction extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-action', HoytAction );
+window.customElements.define( 'lake-action', KetnerLakeAction );

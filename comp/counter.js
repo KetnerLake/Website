@@ -1,4 +1,4 @@
-export default class HoytCounter extends HTMLElement {
+export default class KetnerLakeCounter extends HTMLElement {
   constructor() {
     super();
 
@@ -115,4 +115,4 @@ export default class HoytCounter extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-counter', HoytCounter );
+window.customElements.define( 'lake-counter', KetnerLakeCounter );

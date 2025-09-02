@@ -1,4 +1,4 @@
-export default class HoytPage extends HTMLElement {
+export default class KetnerLakePage extends HTMLElement {
   constructor() {
     super();
 
@@ -118,4 +118,4 @@ export default class HoytPage extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-page', HoytPage );
+window.customElements.define( 'lake-page', KetnerLakePage );

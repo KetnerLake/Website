@@ -1,4 +1,4 @@
-export default class HoytFeature extends HTMLElement {
+export default class KetnerLakeFeature extends HTMLElement {
   constructor() {
     super();
 
@@ -143,4 +143,4 @@ export default class HoytFeature extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-feature', HoytFeature );
+window.customElements.define( 'lake-feature', KetnerLakeFeature );

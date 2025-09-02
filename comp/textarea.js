@@ -1,4 +1,4 @@
-export default class HoytTextarea extends HTMLElement {
+export default class KetnerLakeTextarea extends HTMLElement {
   constructor() {
     super();
 
@@ -174,4 +174,4 @@ export default class HoytTextarea extends HTMLElement {
   }
 }
 
-window.customElements.define( 'krh-textarea', HoytTextarea );
+window.customElements.define( 'lake-textarea', KetnerLakeTextarea );

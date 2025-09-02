@@ -1,4 +1,4 @@
-export default class HoytFeedback extends HTMLElement {
+export default class KetnerLakeFeedback extends HTMLElement {
   constructor() {
     super();
 
@@ -179,4 +179,4 @@ export default class HoytFeedback extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-feedback', HoytFeedback );
+window.customElements.define( 'lake-feedback', KetnerLakeFeedback );

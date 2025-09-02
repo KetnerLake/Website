@@ -1,4 +1,4 @@
-export default class HoytInput extends HTMLElement {
+export default class KetnerLakeInput extends HTMLElement {
   constructor() {
     super();
 
@@ -173,4 +173,4 @@ export default class HoytInput extends HTMLElement {
   }
 }
 
-window.customElements.define( 'krh-input', HoytInput );
+window.customElements.define( 'lake-input', KetnerLakeInput );

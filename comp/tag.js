@@ -1,4 +1,4 @@
-export default class HoytTag extends HTMLElement {
+export default class KetnerLakeTag extends HTMLElement {
   constructor() {
     super();
 
@@ -115,4 +115,4 @@ export default class HoytTag extends HTMLElement {
   }  
 }
 
-window.customElements.define( 'krh-tag', HoytTag );
+window.customElements.define( 'lake-tag', KetnerLakeTag );
