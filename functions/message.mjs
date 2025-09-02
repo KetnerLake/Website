@@ -4,8 +4,7 @@ export default async ( request, context ) => {
   const body = await request.json();
 
   /* Auth */
-  if( request.method !== 'POST' ) {
-    console.log( 'METHOD CHECK' );
+  if( request.method !== 'POST' || request.method !== 'OPTIONS' ) {
     return new Response( JSON.stringify( {error: 'Method Not Allowed'} ), {
       status: 405,
       statusText: 'Method Not Allowed'
@@ -13,7 +12,6 @@ export default async ( request, context ) => {
   }  
 
   if( body.company && body.company !== null ) {
-    console.log( 'HONEYPOT CHECK' );
     return new Response( JSON.stringify( {error: 'Bot Detected'} ), {
       status: 400,
       statusText: 'Bot detected'
