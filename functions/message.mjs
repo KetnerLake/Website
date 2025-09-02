@@ -1,20 +1,11 @@
 import {Resend} from 'resend';
 
 export default async ( request, context ) => {
-  const body = await request.json();
-
-  /* Auth */
+  /* Method check (bots) */
   if( request.method !== 'POST' || request.method !== 'OPTIONS' ) {
     return new Response( JSON.stringify( {error: 'Method Not Allowed'} ), {
       status: 405,
       statusText: 'Method Not Allowed'
-    } );
-  }  
-
-  if( body.company && body.company !== null ) {
-    return new Response( JSON.stringify( {error: 'Bot Detected'} ), {
-      status: 400,
-      statusText: 'Bot detected'
     } );
   }  
 
@@ -50,6 +41,16 @@ export default async ( request, context ) => {
 
   /* Main */
   try {
+    const body = await request.json();    
+
+    // Honeypot check (bots)
+    if( body.company && body.company !== null ) {
+      return new Response( JSON.stringify( {error: 'Bot Detected'} ), {
+        status: 400,
+        statusText: 'Bot detected'
+      } );
+    }  
+
     const resend = new Resend( process.env.RESEND_API_KEY );
     const response = await resend.emails.send( {
       from: 'Ketner Lake <feedback@ketnerlake.com>',
