@@ -7,6 +7,7 @@ export default class KetnerLakePage extends HTMLElement {
       <style>
         :host {
           align-items: center;
+          background: var( --section-background, #ffffff );          
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
