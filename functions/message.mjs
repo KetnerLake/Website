@@ -1,15 +1,6 @@
 import {Resend} from 'resend';
 
 export default async ( request, context ) => {
-  /* Method check (bots) */
-  console.log( request.method );
-  if( request.method !== 'POST' || request.method !== 'OPTIONS' ) {
-    return new Response( JSON.stringify( {error: 'Method Not Allowed'} ), {
-      status: 405,
-      statusText: 'Method Not Allowed'
-    } );
-  }  
-
   /* CORS */
   const allowed = [
     'https://fastinghours.com', 
@@ -39,6 +30,14 @@ export default async ( request, context ) => {
       headers
     } );
   } 
+
+  /* Method check (bots) */
+  if( request.method !== 'POST' ) {
+    return new Response( JSON.stringify( {error: 'Method Not Allowed'} ), {
+      status: 405,
+      statusText: 'Method Not Allowed'
+    } );
+  }  
 
   /* Main */
   try {
