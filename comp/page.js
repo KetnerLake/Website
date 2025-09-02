@@ -11,7 +11,7 @@ export default class KetnerLakePage extends HTMLElement {
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
-          margin: 48px 0 0 0;
+          margin: var( --section-margin, 48px 0 0 0 );
           position: relative;
         }
 
