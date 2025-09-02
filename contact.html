@@ -204,6 +204,25 @@
       border: 1px solid #f5c6cb;
     }
 
+    /* Form Validation Styles */
+    .contact-form input.invalid,
+    .contact-form select.invalid,
+    .contact-form textarea.invalid {
+      border-color: #dc3545;
+      box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.875rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
     /* Footer */
     .footer {
       background: #1a1a1a;
@@ -385,8 +404,112 @@
   </footer>
 
   <script>
+    // Form validation functions
+    function validateEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+    
+    function showError(field, message) {
+      field.classList.add('invalid');
+      let errorDiv = field.parentNode.querySelector('.error-message');
+      if (!errorDiv) {
+        errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        field.parentNode.appendChild(errorDiv);
+      }
+      errorDiv.textContent = message;
+      errorDiv.classList.add('show');
+    }
+    
+    function clearError(field) {
+      field.classList.remove('invalid');
+      const errorDiv = field.parentNode.querySelector('.error-message');
+      if (errorDiv) {
+        errorDiv.classList.remove('show');
+      }
+    }
+    
+    function validateField(field) {
+      const value = field.value.trim();
+      const fieldName = field.name;
+      
+      clearError(field);
+      
+      if (field.hasAttribute('required') && !value) {
+        showError(field, `${field.previousElementSibling.textContent.replace(' *', '')} is required`);
+        return false;
+      }
+      
+      if (fieldName === 'email' && value && !validateEmail(value)) {
+        showError(field, 'Please enter a valid email address');
+        return false;
+      }
+      
+      if (fieldName === 'firstName' && value && value.length < 2) {
+        showError(field, 'First name must be at least 2 characters');
+        return false;
+      }
+      
+      if (fieldName === 'lastName' && value && value.length < 2) {
+        showError(field, 'Last name must be at least 2 characters');
+        return false;
+      }
+      
+      if (fieldName === 'subject' && value && value.length < 5) {
+        showError(field, 'Project title must be at least 5 characters');
+        return false;
+      }
+      
+      if (fieldName === 'body' && value && value.length < 20) {
+        showError(field, 'Project details must be at least 20 characters');
+        return false;
+      }
+      
+      return true;
+    }
+    
+    function validateForm() {
+      const requiredFields = document.querySelectorAll('#contactForm [required]');
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        if (!validateField(field)) {
+          isValid = false;
+        }
+      });
+      
+      // Also validate email field even if not required but has value
+      const emailField = document.getElementById('email');
+      if (emailField.value.trim() && !validateField(emailField)) {
+        isValid = false;
+      }
+      
+      return isValid;
+    }
+    
+    // Add real-time validation
+    document.querySelectorAll('#contactForm input, #contactForm select, #contactForm textarea').forEach(field => {
+      field.addEventListener('blur', () => validateField(field));
+      field.addEventListener('input', () => {
+        if (field.classList.contains('invalid')) {
+          validateField(field);
+        }
+      });
+    });
+
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
       e.preventDefault();
+      
+      // Validate form before submission
+      if (!validateForm()) {
+        const firstInvalid = document.querySelector('.invalid');
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstInvalid.focus();
+        }
+        return;
+      }
       
       const messageDiv = document.getElementById('message');
       const submitButton = document.querySelector('.submit-button');
@@ -437,6 +560,8 @@
           messageDiv.className = 'message success';
           messageDiv.style.display = 'block';
           this.reset();
+          // Clear any validation errors after successful submission
+          document.querySelectorAll('.invalid').forEach(field => clearError(field));
         } else {
           throw new Error('Failed to send message');
         }
