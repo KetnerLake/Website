@@ -1,9 +1,28 @@
 import {Resend} from 'resend';
 
 export default async ( request, context ) => {
+  const body = await request.json();
+
+  /* Auth */
+  if( request.method !== 'POST' ) {
+    return new Response( JSON.stringify( {error: 'Method Not Allowed'} ), {
+      status: 405,
+      statusText: 'Method Not Allowed'
+    } );
+  }  
+
+  if( body.company && body.company !== null ) {
+    return new Response( JSON.stringify( {error: 'Bot Detected'} ), {
+      status: 400,
+      statusText: 'Bot detected'
+    } );
+  }  
+
+  /* CORS */
   const allowed = [
     'https://fastinghours.com', 
     'https://flavorawesome.com',
+    'https://ketnerlake.com', 
     'http://localhost:8888',
     'http://localhost:8000'
   ];
@@ -16,6 +35,11 @@ export default async ( request, context ) => {
 
   if( allowed.includes( origin ) ) {
     headers['Access-Control-Allow-Origin'] = origin;
+  } else {
+    return new Response( JSON.stringify( {error: 'Bot Detected'} ), {
+      status: 400,
+      statusText: 'Bot detected'
+    } );    
   }
 
   if( request.method === 'OPTIONS' ) {
@@ -24,8 +48,8 @@ export default async ( request, context ) => {
     } );
   } 
 
+  /* Main */
   try {
-    const body = await request.json();
     const resend = new Resend( process.env.RESEND_API_KEY );
     const response = await resend.emails.send( {
       from: 'Ketner Lake <feedback@ketnerlake.com>',
