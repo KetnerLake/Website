@@ -48,6 +48,11 @@ export default class KetnerLakePage extends HTMLElement {
           :host {
             padding: 0 16px 0 16px;            
           }
+
+          :host( :has( div.two ) ) h1 {
+            font-size: 32px;
+            line-height: 38px;
+          }
         }        
       </style>
       <div part="column">
