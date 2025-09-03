@@ -58,7 +58,7 @@ export default class KetnerLakeBenefits extends HTMLElement {
       </style>
       <div part="column">
         <div part="left">
-          <h2></h2>        
+          <h2 part="title"></h2>        
           <slot></slot>
         </div>
         <div part="right">
