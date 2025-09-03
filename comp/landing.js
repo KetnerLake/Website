@@ -74,7 +74,7 @@ export default class KetnerLakeLanding extends HTMLElement {
           </div>
         </div>
         <div part="media">
-          <img src="./img/fasting-countdown.png">
+          <slot name="media"></slot>
         </div>
       </div>
     `;
