@@ -2,6 +2,7 @@ import KetnerLakeAction from "./comp/action.js";
 import KetnerLakeBenefitItem from "./comp/benefit-item.js";
 import KetnerLakeBenefits from "./comp/benefits.js";
 import KetnerLakeCallToAction from "./comp/cta.js";
+import KetnerLakeCarousel from "./comp/carousel.js";
 import KetnerLakeCounter from "./comp/counter.js";
 import KetnerLakeFeature from "./comp/feature.js";
 import KetnerLakeFeedback from "./comp/feedback.js";
