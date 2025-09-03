@@ -6,7 +6,7 @@ export default class KetnerLakeFeedback extends HTMLElement {
     template.innerHTML = /* template */ `
       <style>
         :host {
-          background: #f8fafc;
+          background: var( --feedback-background, #f8fafc );
           border-left: 4px solid #4f46e5;          
           border-radius: 12px;
           box-shadow: 0 4px 6px rgba( 0, 0, 0, 0.05 );          
