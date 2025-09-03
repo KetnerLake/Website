@@ -7,7 +7,7 @@ export default class KetnerLakeFeature extends HTMLElement {
       <style>
         :host {
           align-items: center;
-          background: #ffffff;
+          background: var( --feature-background, #ffffff );
           border-radius: 12px;
           box-shadow: 0 4px 6px rgba( 0, 0, 0, 0.05 );          
           box-sizing: border-box;
