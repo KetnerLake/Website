@@ -7,7 +7,9 @@ export default class KetnerLakeFeedback extends HTMLElement {
       <style>
         :host {
           background: var( --feedback-background, #f8fafc );
-          border-left: 4px solid #4f46e5;          
+          border-left-color: var( --feedback-border, #4f46e5 );
+          border-left-style: solid;
+          border-left-width: 4px;
           border-radius: 12px;
           box-shadow: 0 4px 6px rgba( 0, 0, 0, 0.05 );          
           box-sizing: border-box;
