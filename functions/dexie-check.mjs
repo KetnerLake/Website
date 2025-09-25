@@ -63,7 +63,7 @@ export default async ( request, context ) => {
     let data = await response.json();
     const token = data.accessToken;
 
-    response = await fetch( `https://${body.server}.dexie.cloud/users/${body.email}`, {
+    response = await fetch( `https://${body.server}.dexie.cloud/users/${body.email.toLowerCase()}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
