@@ -1,7 +1,9 @@
 export default async ( request, context ) => {
   const allowed = [
     'https://fastinghours.com', 
+    'https://app.fastinghours.com', 
     'https://flavorawesome.com',
+    'https://app.flavorawesome.com',
     'https://ketnerlake.com', 
     'http://localhost:8888',
     'http://localhost:8000',
