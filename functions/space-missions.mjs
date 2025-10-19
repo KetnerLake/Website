@@ -1,8 +1,8 @@
+import Database from 'better-sqlite3';
 import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
-import Database from 'better-sqlite3';
 
 const require = createRequire(import.meta.url);
 
@@ -10,8 +10,7 @@ export default async ( request, context ) => {
   // CORS
   const allowed = [
     'https://ketnerlake.com',
-    'http://localhost:8080',
-    'http://localhost:8888'
+    'http://localhost:8080'
   ];
   const origin = request.headers.get( 'Origin' );
 
@@ -21,7 +20,7 @@ export default async ( request, context ) => {
   };
 
   if (origin === null || origin === 'null') {
-    // Allow same-host or sandboxed contexts
+    // Same-host or sandboxed contexts may report Origin as "null"; allow broadly
     headers['Access-Control-Allow-Origin'] = '*';
   } else if( allowed.includes( origin ) ) {
     headers['Access-Control-Allow-Origin'] = origin;
