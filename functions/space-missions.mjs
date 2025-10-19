@@ -52,8 +52,19 @@ export default async ( request, context ) => {
     const sortBy = url.searchParams.get( 'sortBy' );
     const sortOrder = url.searchParams.get( 'sortOrder' ) || 'asc';
     
+    // Filtering parameters
+    const statusFilter = url.searchParams.get( 'status' );
+    
     // Valid columns for sorting (security measure)
     const validColumns = ['id', 'date', 'mission_id', 'destination', 'status', 'crew_size', 'duration_days', 'success_rate', 'security_code'];
+    
+    // Build WHERE clause
+    let whereClause = '';
+    let queryParams = [];
+    if (statusFilter) {
+      whereClause = ' WHERE status = ?';
+      queryParams.push(statusFilter);
+    }
     
     // Build ORDER BY clause
     let orderByClause = '';
@@ -113,15 +124,18 @@ export default async ( request, context ) => {
     }
 
     try {
-      const totalRecords = db.prepare('SELECT COUNT(*) AS c FROM missions;').get().c;
+      const countQuery = 'SELECT COUNT(*) AS c FROM missions' + whereClause;
+      const totalRecords = statusFilter 
+        ? db.prepare(countQuery).get(statusFilter).c
+        : db.prepare(countQuery).get().c;
       const totalPages = totalRecords === 0 ? 0 : Math.ceil( totalRecords / pageSize );
       const offset = (page - 1) * pageSize;
 
       const baseQuery = 'SELECT id, date, mission_id, destination, status, crew_size, duration_days, success_rate, security_code FROM missions';
-      const fullQuery = baseQuery + orderByClause + ' LIMIT ? OFFSET ?';
+      const fullQuery = baseQuery + whereClause + orderByClause + ' LIMIT ? OFFSET ?';
       
       const rows = totalRecords > 0 && offset < totalRecords
-        ? db.prepare(fullQuery).all(pageSize, offset)
+        ? db.prepare(fullQuery).all(...queryParams, pageSize, offset)
         : [];
 
       return new Response(
@@ -134,6 +148,7 @@ export default async ( request, context ) => {
           hasNext: page < totalPages,
           sortBy: sortBy || null,
           sortOrder: sortBy ? sortOrder : null,
+          statusFilter: statusFilter || null,
           data: rows
         } ), {
           headers: {
