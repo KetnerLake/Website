@@ -75,7 +75,28 @@ export default async ( request, context ) => {
       }), { status: 500 });
     }
 
-    const db = new Database(dbPath, { readonly: true });
+    // Copy database to /tmp for Netlify serverless environment
+    const tempDbPath = '/tmp/space_missions.db';
+    try {
+      await fs.copyFile(dbPath, tempDbPath);
+    } catch (copyError) {
+      // If copy fails, try original path with readonly mode
+      console.warn('Failed to copy database to /tmp:', copyError.message);
+    }
+
+    // Try temp path first, fallback to original with strict readonly
+    let db;
+    try {
+      db = new Database(tempDbPath, { readonly: true });
+    } catch {
+      try {
+        db = new Database(dbPath, { readonly: true, fileMustExist: true });
+      } catch (dbError) {
+        return new Response(JSON.stringify({ 
+          error: 'Unable to open database: ' + dbError.message 
+        }), { status: 500 });
+      }
+    }
 
     try {
       const totalRecords = db.prepare('SELECT COUNT(*) AS c FROM missions;').get().c;
