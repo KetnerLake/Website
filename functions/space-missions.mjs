@@ -47,6 +47,20 @@ export default async ( request, context ) => {
     const url = new URL( request.url );
     const page = Math.max(1, parseInt( url.searchParams.get( 'page' ) || '1', 10 ) );
     const pageSize = Math.max( 1, Math.min( 1000, parseInt( url.searchParams.get( 'pageSize' ) || '100', 10 ) ) );
+    
+    // Sorting parameters
+    const sortBy = url.searchParams.get( 'sortBy' );
+    const sortOrder = url.searchParams.get( 'sortOrder' ) || 'asc';
+    
+    // Valid columns for sorting (security measure)
+    const validColumns = ['id', 'date', 'mission_id', 'destination', 'status', 'crew_size', 'duration_days', 'success_rate', 'security_code'];
+    
+    // Build ORDER BY clause
+    let orderByClause = '';
+    if (sortBy && validColumns.includes(sortBy)) {
+      const direction = sortOrder.toLowerCase() === 'desc' ? 'DESC' : 'ASC';
+      orderByClause = ` ORDER BY ${sortBy} ${direction}`;
+    }
 
     const __filename = fileURLToPath( import.meta.url );
     const __dirname = path.dirname( __filename );
@@ -103,8 +117,11 @@ export default async ( request, context ) => {
       const totalPages = totalRecords === 0 ? 0 : Math.ceil( totalRecords / pageSize );
       const offset = (page - 1) * pageSize;
 
+      const baseQuery = 'SELECT id, date, mission_id, destination, status, crew_size, duration_days, success_rate, security_code FROM missions';
+      const fullQuery = baseQuery + orderByClause + ' LIMIT ? OFFSET ?';
+      
       const rows = totalRecords > 0 && offset < totalRecords
-        ? db.prepare('SELECT id, date, mission_id, destination, status, crew_size, duration_days, success_rate, security_code FROM missions ORDER BY id ASC LIMIT ? OFFSET ?;').all(pageSize, offset)
+        ? db.prepare(fullQuery).all(pageSize, offset)
         : [];
 
       return new Response(
@@ -115,6 +132,8 @@ export default async ( request, context ) => {
           totalPages,
           hasPrev: page > 1,
           hasNext: page < totalPages,
+          sortBy: sortBy || null,
+          sortOrder: sortBy ? sortOrder : null,
           data: rows
         } ), {
           headers: {
