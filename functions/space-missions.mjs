@@ -149,7 +149,7 @@ export default async ( request, context ) => {
           sortBy: sortBy || null,
           sortOrder: sortBy ? sortOrder : null,
           statusFilter: statusFilter || null,
-          data: rows
+          missions: rows
         } ), {
           headers: {
             'Content-Type': 'application/json',
