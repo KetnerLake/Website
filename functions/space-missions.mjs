@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { createRequire } from 'module';
+import Database from 'better-sqlite3';
 
 const require = createRequire(import.meta.url);
 
@@ -57,14 +58,6 @@ export default async ( request, context ) => {
       await fs.access(dbPath);
     } catch {
       return new Response(JSON.stringify({ error: 'Database not found. Run migrate_space_missions_sqlite.js to create space_missions.db.' }), { status: 500 });
-    }
-
-    // Load better-sqlite3 (native module)
-    let Database;
-    try {
-      Database = require('better-sqlite3');
-    } catch (e) {
-      return new Response(JSON.stringify({ error: 'Missing dependency better-sqlite3. Install with: npm i better-sqlite3' }), { status: 500 });
     }
 
     const db = new Database(dbPath, { readonly: true });
