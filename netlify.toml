@@ -5,4 +5,11 @@
 
 [functions]
 directory = "functions"
-external_node_modules = ["@pinecone-database/pinecone","openai", "resend", "stripe", "zod"]
+external_node_modules = [
+  "better-sqlite3", 
+  "@pinecone-database/pinecone", 
+  "openai", 
+  "resend", 
+  "stripe", 
+  "zod"
+]
