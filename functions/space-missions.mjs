@@ -50,13 +50,29 @@ export default async ( request, context ) => {
 
     const __filename = fileURLToPath( import.meta.url );
     const __dirname = path.dirname( __filename );
-    const dbPath = path.resolve( __dirname, 'space_missions.db' );
-
-    // Ensure DB exists
-    try {
-      await fs.access(dbPath);
-    } catch {
-      return new Response(JSON.stringify({ error: 'Database not found. Run migrate_space_missions_sqlite.js to create space_missions.db.' }), { status: 500 });
+    
+    // For Netlify, try multiple possible paths
+    const possiblePaths = [
+      path.resolve( __dirname, 'space_missions.db' ),
+      path.resolve( process.cwd(), 'functions', 'space_missions.db' ),
+      path.resolve( '/var/task/functions', 'space_missions.db' )
+    ];
+    
+    let dbPath = null;
+    for (const testPath of possiblePaths) {
+      try {
+        await fs.access(testPath);
+        dbPath = testPath;
+        break;
+      } catch {
+        continue;
+      }
+    }
+    
+    if (!dbPath) {
+      return new Response(JSON.stringify({ 
+        error: 'Database not found. Tried paths: ' + possiblePaths.join(', ') 
+      }), { status: 500 });
     }
 
     const db = new Database(dbPath, { readonly: true });
