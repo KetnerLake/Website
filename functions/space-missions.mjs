@@ -10,7 +10,7 @@ export default async ( request, context ) => {
   // CORS
   const allowed = [
     'https://ketnerlake.com',
-    'http://localhost:8080'
+    'http://localhost:8000'
   ];
   const origin = request.headers.get( 'Origin' );
 
