@@ -10,7 +10,8 @@ export default async ( request, context ) => {
   // CORS
   const allowed = [
     'https://ketnerlake.com',
-    'http://localhost:8000'
+    'http://localhost:8000',
+    'https://hire-me-warp.netlify.app'
   ];
   const origin = request.headers.get( 'Origin' );
 
