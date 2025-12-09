@@ -96,7 +96,7 @@ export default class KetnerLakeFooter extends HTMLElement {
             <slot></slot>
           </div>
         </div>
-        <p part="copyright">© <span></span> <a href="https://ketnerlake.com">Ketner Lake</a>. All rights reserved.</p>
+        <p part="copyright">Made with ❤️ by <a aria-label="Visit web site" href="https://kevinhoyt.com" target="_blank">Kevin Hoyt</a> &copy; 2025</p>
       </div>
     `;
 
