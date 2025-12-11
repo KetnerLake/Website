@@ -107,7 +107,7 @@ export default class KetnerLakeFooter extends HTMLElement {
     // Elements
     this.$brand = this.shadowRoot.querySelector( 'h3' );
     this.$slogan = this.shadowRoot.querySelector( 'div[part=brand] p' );
-    this.$year = this.shadowRoot.querySelector( 'p[part=copyright] span' );
+    // this.$year = this.shadowRoot.querySelector( 'p[part=copyright] span' );
   }
 
   // When attributes change
@@ -115,8 +115,8 @@ export default class KetnerLakeFooter extends HTMLElement {
     this.$brand.textContent = this.brand === null ? '' : this.brand;
     this.$slogan.textContent = this.slogan === null ? '' : this.slogan;    
 
-    const today = new Date();
-    this.$year.textContent = today.getFullYear();
+    // const today = new Date();
+    // this.$year.textContent = today.getFullYear();
   }
 
   // Promote properties
