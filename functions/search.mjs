@@ -1,5 +1,4 @@
 import OpenAI from 'openai';
-import { Pinecone } from '@pinecone-database/pinecone';
 
 export default async (request, context) => {
   /* CORS */
@@ -61,59 +60,47 @@ export default async (request, context) => {
       });
     }
 
-    const openai = new OpenAI({
+    const client = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY
     });
 
-    const pc = new Pinecone({
-      apiKey: process.env.PINECONE_API_KEY
-    });
-
-    const index = pc.index('about-kevin-hoyt');
-    const topK = 3;
-
-    // Create embedding for the question
-    const embeddingResponse = await openai.embeddings.create({
-      model: 'text-embedding-3-small',
-      input: body.question,
-      dimensions: 512
-    });
-    const embedding = embeddingResponse.data[0].embedding;
-
-    // Query Pinecone for similar content
-    const queryResponse = await index.query({
-      vector: embedding,
-      topK: topK,
-      includeMetadata: true
-    });
-
-    // Build context from results
-    let context = '';
-    for (const match of queryResponse.matches) {
-      const page = match.metadata?.page ?? '?';
-      const text = match.metadata?.text ?? '';
-      context += `[Page ${page}] ${text}\n---\n`;
-    }
+    const vectorStoreId = process.env.OPENAI_VECTOR_STORE_ID;
+    const model = 'gpt-5-mini';
+    const maxOutputTokens = 2000;
+    const topk = null;
 
     const instructions =
       "You are an 'Ask AI about me' assistant.\n" +
-      "Answer using ONLY information found in the context section provided.\n" +
+      "Answer using ONLY information found in file_search results from the vector store.\n" +
       "If the answer is not supported by the retrieved text, say you don't know and suggest what to ask next.\n" +
-      "Keep answers under 500 words unless explicitly asked for detail. Be concise, recruiter-friendly, and factual.\n" +
+      "Keep answers under 500 words unless exlpicitly asked for detail. Be concise, recruiter-friendly, and factual.\n" +
+      "You must always produce a visible answer.\n" +
       "If the answer is unknown, say 'I don't know based on the provided documents.'\n" +
       "Never respond with an empty message.\n" +
-      "If a conversation summary is provided, use it as context for the current question.\n" +
-      "Respond using valid Markdown only. Use headings and bullet lists where appropriate.";
+      "If a conversation summary is provided, use it as context for the current question.\n" + 
+      "Respond using valid Markdown only.\n" +
+      "Use headings and bullet lists where appropriate.";
 
-    let input = `Context:\n${context}\n\nQuestion: ${body.question}`;
-    if (body.summary) {
-      input = `Conversation summary:\n${body.summary}\n\n${input}`;
+    const toolDef = {
+      type: 'file_search',
+      vector_store_ids: [vectorStoreId]
+    };
+
+    if (topk !== null) {
+      toolDef.max_num_results = topk;
     }
 
-    const stream = await openai.responses.create({
-      model: 'gpt-5-mini',
+    let input = body.question;
+    if (body.summary) {
+      input = `Conversation summary:\n${body.summary}\n\nCurrent question: ${body.question}`;
+    }
+
+    const stream = await client.responses.create({
+      model: model,
       instructions: instructions,
       input: input,
+      tools: [toolDef],
+      max_output_tokens: maxOutputTokens,
       stream: true
     });
 
