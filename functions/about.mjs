@@ -111,7 +111,7 @@ export default async (request, context) => {
     }
 
     const stream = await openai.responses.create({
-      model: 'gpt-5-mini',
+      model: 'gpt-5.1',
       instructions: instructions,
       input: input,
       stream: true
