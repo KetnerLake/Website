@@ -11,5 +11,6 @@ external_node_modules = [
   "openai", 
   "resend", 
   "stripe", 
+  "@supabase/supabase-js",
   "zod"
 ]
