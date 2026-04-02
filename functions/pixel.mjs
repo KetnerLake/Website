@@ -55,12 +55,14 @@ export default async ( request, context ) => {
 
     return new Response( JSON.stringify( data ), {
       headers: {
+        ...headers,
         'Content-Type': 'application/json'
       }
     } );
   } catch ( error ) {
     return new Response( error.toString(), {
-      status: 500
+      status: 500,
+      headers
     } );
   }
 }
