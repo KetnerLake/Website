@@ -14,7 +14,7 @@ export default async ( request, context ) => {
   const origin = request.headers.get( 'Origin' );
 
   let headers = {
-    'Access-Control-Allow-Methods': 'OPTIONS, POST',
+    'Access-Control-Allow-Methods': 'OPTIONS, GET, POST',
     'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin'
   };
 
@@ -28,7 +28,7 @@ export default async ( request, context ) => {
     } );
   }
 
-  if( request.method !== 'POST' ) {
+  if( request.method !== 'GET' && request.method !== 'POST' ) {
     return new Response( 'Method Not Allowed', {
       status: 405,
       headers
@@ -41,6 +41,36 @@ export default async ( request, context ) => {
   );
 
   try {
+    if( request.method === 'GET' ) {
+      const url = new URL( request.url );
+      const start = url.searchParams.get( 'start' );
+      const end = url.searchParams.get( 'end' );
+      const size = parseInt( url.searchParams.get( 'size' ) || '1000', 10 );
+      const page = parseInt( url.searchParams.get( 'page' ) || '1', 10 );
+
+      const offset = ( page - 1 ) * size;
+
+      let query = supabase
+        .from( 'Ping' )
+        .select( '*' )
+        .order( 'event_time', { ascending: false } )
+        .range( offset, offset + size - 1 );
+
+      if( start ) query = query.gte( 'event_time', start );
+      if( end ) query = query.lte( 'event_time', end );
+
+      const { data, error: dbError } = await query;
+
+      if( dbError ) throw new Error( dbError.message );
+
+      return new Response( JSON.stringify( data ), {
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        }
+      } );
+    }
+
     const body = await request.json();
     body.user_agent = request.headers.get( 'User-Agent' );
     body.accept_language = request.headers.get( 'Accept-Language' );

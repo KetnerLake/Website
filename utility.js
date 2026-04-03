@@ -75,6 +75,15 @@ export const KetnerLake = {
     .then( ( response ) => response.text() );
   },
 
+  pixel: {
+    ping( screen_name = null, event_name = null, event_details = null, event_time = new Date(), screen_height = null, screen_width = null, user_agent = null, viewport_height = null, viewport_width = null, accept_language = null ) {
+
+    },
+    report( start = null, end = null, size = 1000, page = 1 ) {
+
+    }
+  },
+
   weather: {
     full( latitude, longitude ) {
       return fetch( `${this.BASE_URL}/weather/full?location=${latitude},${longitude}` )

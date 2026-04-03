@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dashboard</title>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      margin: 0;
+      padding: 16px;
+    }
+  </style>
+
+<body>
+
+<p id="kevinhoyt">Kevin Hoyt: <span></span></p>  
+<p id="fasting">Fasting Hours: <span></span></p>
+
+<script>
+  const hours_count = document.querySelector( '#fasting span' );
+  const hoyt_count = document.querySelector( '#kevinhoyt span' );  
+
+  fetch( '/api/pixel' )
+  .then( ( response ) => response.json() )
+  .then( ( data ) => {
+    const hours = data.filter( ( value ) => value.screen_name === 'fastinghours_app' );
+    hours_count.innerText = hours.length;
+
+    const hoyt = data.filter( ( value ) => value.screen_name === 'kevinhoyt_com' );
+    hoyt_count.innerText = hoyt.length;    
+  } );
+</script>
+
+</body>
+</html>
