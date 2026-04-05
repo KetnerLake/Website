@@ -33,6 +33,10 @@
         padding: 0;
       }
 
+      bi-waiting {
+        padding: 8px 0 0 16px;
+      }
+
       header {
         align-items: flex-end;
         display: flex;
@@ -243,6 +247,7 @@
         background: none;
         border: none;
         border-radius: 40px;
+        color: #1a1a1a;
         cursor: pointer;
         display: flex;
         flex-direction: row;
@@ -290,6 +295,7 @@
         padding: 8px 0 8px 0;     
       }
 
+      .system:has( bi-chart ),      
       .system:has( bi-table ) {
         padding: 0;
       }
@@ -335,6 +341,9 @@
 
       <!-- History -->
       <ul></ul>
+
+      <!-- Loading indicator -->
+      <bi-waiting hidden label="Working..."></bi-waiting>
 
     </article>
 
@@ -394,22 +403,26 @@
 
   <!-- Components -->
   <script src="./button.js" type="module"></script>   
+  <script src="./chart.js" type="module"></script>   
   <script src="./datasource.js" type="module"></script>     
   <script src="./input.js" type="module"></script>
   <script src="./select.js" type="module"></script>  
   <script src="./select-option.js" type="module"></script>    
   <script src="./table.js" type="module"></script>    
+  <script src="./waiting.js" type="module"></script>
 
   <!-- Application -->
   <script>
     // Dialog
-    const dialog = [
-      null, [
+    const dialog = [[
+        {type: 'bi-chart', system: null}
+      ], [
         {type: null, system: 'You do not have a datasource configured. Would you like to configure one now?'},
         {type: 'bi-datasource', system: null},
         {type: 'bi-table', system: null}
-      ],
-      null
+      ], [
+        {type: null, system: '91 users signed up last month.'}
+      ]
     ];
 
     let dialog_index = null;
@@ -493,6 +506,7 @@
 
     // New chat (clear)
     const btn_clear = document.querySelector( '#clear' );
+    const ldr_waiting = document.querySelector( 'bi-waiting' );
     btn_clear.addEventListener( 'click', () => {
       dialog_index = null;
       path_index = null;
@@ -501,10 +515,13 @@
         lst_history.children[0].remove();
       }
 
+      ldr_waiting.hidden = true;
+
       clearChat( false );
     } );
     const lst_history = document.querySelector( '#history ul' );
     lst_history.addEventListener( 'action', ( evt ) => {
+      ldr_waiting.hidden = false;
       clearChat();
 
       dialog_timeout = setTimeout( () => {
@@ -523,11 +540,13 @@
           block: 'end'
         } );        
 
+        ldr_waiting.hidden = true;
+
         txt_message.disabled = false;
         txt_message.focus();        
 
         path_index = path_index + 1;      
-      }, Math.random() * 5000 );
+      }, 3000 + ( Math.random() * 3000 ) );
     } );
 
     function ask( message = null ) {
@@ -535,7 +554,12 @@
       user.classList.add( 'user' );
       user.innerText = message;
       lst_history.appendChild( user );
+      lst_history.scrollIntoView( {
+        behavior: 'smooth',
+        block: 'end'
+      } );                    
 
+      ldr_waiting.hidden = false;
       clearChat();
 
       dialog_timeout = setTimeout( () => {
@@ -564,9 +588,11 @@
           block: 'end'
         } );
 
+        ldr_waiting.hidden = true;
+
         txt_message.disabled = false;
         txt_message.focus();
-      }, Math.random() * 5000 );
+      }, 3000 + ( Math.random() * 3000 ) );
     }
 
     function clearChat( disable = true ) {

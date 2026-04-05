@@ -70,7 +70,7 @@ export default class BIDatasource extends HTMLElement {
         <bi-input label="Connection string" name="connection" placeholder="mydb://server.com:8080"></bi-input>      
         <bi-button label="Save"></bi-button>
       </form>
-      <p>Using: <span></span></p>
+      <p>Using <span></span>.</p>
     `;
     
     // Private
