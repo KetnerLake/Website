@@ -7,9 +7,9 @@ export default class BIChart extends HTMLElement {
       <style>
         :host {
           box-sizing: border-box;
-          display: block;
+          display: flex;
+          flex-direction: column;
           position: relative;
-          width: 100%;
         }
 
         line {
@@ -18,6 +18,8 @@ export default class BIChart extends HTMLElement {
         }
 
         svg {
+          box-sizing: border-box;
+          display: block;
           height: 240px;
           width: 100%;
         }
@@ -49,6 +51,10 @@ export default class BIChart extends HTMLElement {
           fill: none;
           stroke: purple;
           stroke-width: 3px;
+        }        
+
+        @media screen and ( max-width: 430px ) {
+
         }        
       </style>
       <svg>
@@ -87,18 +93,18 @@ export default class BIChart extends HTMLElement {
 
     // Private 
     this._data = [
-      {month: "Apr", mrr: 75000, growth: null, arr: 900000 },
-      {month: "May", mrr: 76800, growth: 3.0, arr: 927000 },
-      {month: "Jun", mrr: 75200, growth: 2.5, arr: 950160 },
-      {month: "Jul", mrr: 78100, growth: 2.5, arr: 973920 },
-      {month: "Aug", mrr: 80500, growth: 3.0, arr: 1003200 },
-      {month: "Sep", mrr: 79000, growth: 2.0, arr: 1023240 },
-      {month: "Oct", mrr: 82800, growth: 3.0, arr: 1053960 },
-      {month: "Nov", mrr: 84200, growth: 1.5, arr: 1069800 },
-      {month: "Dec", mrr: 81500, growth: 3.0, arr: 1101840 },
-      {month: "Jan", mrr: 86000, growth: 2.0, arr: 1123920 },
-      {month: "Feb", mrr: 87200, growth: 2.0, arr: 1146360 },
-      {month: "Mar", mrr: 84600, growth: -3.0, arr: 1111920 }
+      {month: "Apr", short: "Ap", mrr: 75000, growth: null, arr: 900000 },
+      {month: "May", short: "Ma", mrr: 76800, growth: 3.0, arr: 927000 },
+      {month: "Jun", short: "Jn", mrr: 75200, growth: 2.5, arr: 950160 },
+      {month: "Jul", short: "Jl", mrr: 78100, growth: 2.5, arr: 973920 },
+      {month: "Aug", short: "Au", mrr: 80500, growth: 3.0, arr: 1003200 },
+      {month: "Sep", short: "Se", mrr: 79000, growth: 2.0, arr: 1023240 },
+      {month: "Oct", short: "Oc", mrr: 82800, growth: 3.0, arr: 1053960 },
+      {month: "Nov", short: "No", mrr: 84200, growth: 1.5, arr: 1069800 },
+      {month: "Dec", short: "De", mrr: 81500, growth: 3.0, arr: 1101840 },
+      {month: "Jan", short: "Ja", mrr: 86000, growth: 2.0, arr: 1123920 },
+      {month: "Feb", short: "Fe", mrr: 87200, growth: 2.0, arr: 1146360 },
+      {month: "Mar", short: "Mr", mrr: 84600, growth: -3.0, arr: 1111920 }
     ];
     
     // Root
@@ -112,21 +118,29 @@ export default class BIChart extends HTMLElement {
   }
 
   _draw() {
+    const bounds = this.getBoundingClientRect();
+    const inset = 32;    
+    const mobile = 480;
     const months = this.shadowRoot.querySelectorAll( 'text.xaxis' );
+    const start = window.innerWidth > mobile ? 81 : 75;
+    const steps = window.innerWidth > mobile ? 12 : 13;
+
     let path = null;
+
     for( let m = 0; m < months.length; m++ ) {
       if( path === null ) {
-        path = `M ${81 + ( m * ( ( this.clientWidth - 32 ) / 12 ) )} ${this._map( this._data[m].mrr, 70000, 90000, 200, 40 )} `;
+        path = `M ${start + ( m * ( ( bounds.width - inset ) / steps ) )} ${this._map( this._data[m].mrr, 70000, 90000, 200, 40 )} `;
       } else {
-        path = path + `L ${81 + ( m * ( ( this.clientWidth - 32 ) / 12 ) )} ${this._map( this._data[m].mrr, 70000, 90000, 200, 40 )} `;        
+        path = path + `L ${start + ( m * ( ( bounds.width - inset ) / steps ) )} ${this._map( this._data[m].mrr, 70000, 90000, 200, 40 )} `;        
       }
 
-      months[m].setAttributeNS( null, 'x', 81 + ( m * ( ( this.clientWidth - 32 ) / 12 ) ) );
+      months[m].setAttributeNS( null, 'x', start + ( m * ( ( bounds.width - inset ) / steps ) ) );
+      months[m].textContent = window.innerWidth > mobile ? this._data[m].month : this._data[m].short;      
     }
 
     this.$line.setAttributeNS( null, 'd', path );
 
-    path = path + `L ${81 + ( ( months.length - 1 ) * ( ( this.clientWidth - 32 ) / 12 ) )} 199.5 L 81 199.5 Z`;
+    path = path + `L ${start + ( ( months.length - 1 ) * ( ( bounds.width - inset ) / steps ) )} 199.5 L ${start} 199.5 Z`;
     this.$fill.setAttributeNS( null, 'd', path );
   }
 

@@ -19,7 +19,7 @@ export default class BIDatasource extends HTMLElement {
 
         form {
           background: rgba( 0, 0, 0, 0.04 );
-          border-radius: 24px;          
+          border-radius: 20px;          
           box-sizing: border-box;
           display: flex;
           flex-direction: column;
@@ -54,6 +54,12 @@ export default class BIDatasource extends HTMLElement {
         :host( [filled] ) form,
         :host( :not( [filled] ) ) p {
           display: none;
+        }
+
+        @media screen and ( max-width: 480px ) {
+          form {
+            max-width: 80%;
+          }
         }
       </style>
       <form>

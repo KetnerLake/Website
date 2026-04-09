@@ -78,6 +78,20 @@ export default class BITable extends HTMLElement {
           overflow: hidden;
           padding: 0;
         }
+
+        @media screen and ( max-width: 480px ) {
+          header,
+          ul li div {
+            grid-template-columns: 80px 1fr 80px 1fr;
+          }
+
+          header p:nth-of-type( 2 ),
+          header p:nth-of-type( 5 ),
+          ul li div p:nth-of-type( 2 ),
+          ul li div p:nth-of-type( 5 ) {
+            display: none;
+          }  
+        }
       </style>
       <header>
         <p>ID</p>
