@@ -33,9 +33,12 @@
   <br>
   <button id="full" type="button">Weather: Full</button>      
   <button id="summary" type="button">Weather: Summary</button>       
+  <br>
+  <input id="fasting_message" type="text"/>
+  <button id="fasting" type="button">Fasting</button>
 
   <script type="module">
-    import {KetnerLake} from "/script/ketnerlake.js";
+    // import {KetnerLake} from "/script/ketnerlake.js";
 
     const hello_button = document.querySelector( '#hello' );
     hello_button.addEventListener( 'click', async () => {
@@ -90,6 +93,23 @@
       const conditions = await KetnerLake.weather.summary( 39.4973603, -104.7810499 );
       console.log( conditions );
     } );        
+
+    const fasting_message = document.querySelector( '#fasting_message' );
+    const fasting_button = document.querySelector( '#fasting' );
+    fasting_button.addEventListener( 'click', () => {
+      console.log( 'FASTING' );
+      fetch( '/api/fasting', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( {message: fasting_message.value.trim()} )
+      } )
+      .then( ( response ) => response.json() )
+      .then( ( data ) => {
+        console.log( data );
+      } );
+    } );
   </script>
 
 </body>
