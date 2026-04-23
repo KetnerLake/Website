@@ -21,6 +21,8 @@ const IntentSchema = z.object( {
     "edit_entry",
     "delete_entry",
     "answer_question",
+    "about",
+    "none",
     "clarify",
   ] ),
   arguments: z.record( z.string(), z.unknown() ),
@@ -63,19 +65,20 @@ async function loadSkillMarkdown() {
   return trimmed;
 }
 
-async function getIntent( { skillPrompt, message } ) {
+async function getIntent( { skillPrompt, message, messages } ) {
+  const turns = Array.isArray( messages )
+    ? messages
+    : [ { role: "user", content: message } ];
+
   const response = await client.chat.completions.create( {
     model: MODEL,
-    temperature: 1,
+    temperature: 0.1,
     messages: [
       {
         role: "developer",
         content: skillPrompt,
       },
-      {
-        role: "user",
-        content: message,
-      },
+      ...turns,
     ],
     response_format: {
       type: "json_schema",
@@ -98,6 +101,8 @@ async function getIntent( { skillPrompt, message } ) {
                 "edit_entry",
                 "delete_entry",
                 "answer_question",
+                "about",
+                "none",
                 "clarify",
               ],
             },
@@ -170,16 +175,19 @@ export default async ( request, context ) => {
   try {
     const body = await request.json();
     const message = body?.message?.trim();
+    const messages = Array.isArray( body?.messages ) && body.messages.length > 0
+      ? body.messages
+      : null;
 
-    if ( !message ) {
-      return new Response( JSON.stringify( { error: 'Missing required field: message' } ), {
+    if ( !messages && !message ) {
+      return new Response( JSON.stringify( { error: 'Missing required field: message or messages' } ), {
         status: 400,
         headers
       } );
     }
 
     const skillPrompt = await loadSkillMarkdown();
-    const intent = await getIntent( { skillPrompt, message } );
+    const intent = await getIntent( { skillPrompt, message, messages } );
 
     return new Response( JSON.stringify( intent ), { headers } );
   } catch ( error ) {
