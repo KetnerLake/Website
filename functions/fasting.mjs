@@ -154,7 +154,8 @@ async function getIntent( { skillPrompt, message, messages } ) {
 export default async ( request, context ) => {
   const allowed = [
     'https://app.fastinghours.com',
-    'https://fastinghours.com'
+    'https://fastinghours.com',
+    'http://localhost:5173
   ];
   const origin = request.headers.get( 'Origin' );
 
