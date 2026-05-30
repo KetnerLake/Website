@@ -2,7 +2,8 @@ import { getStore } from "@netlify/blobs";
 
 export default async ( request, context ) => {
   const allowed = [
-    'https://kevinhoyt.com'
+    'https://kevinhoyt.com',
+    'http://localhost:8080'
   ];
   const origin = request.headers.get( 'Origin' );
 
