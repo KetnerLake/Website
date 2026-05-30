@@ -24,24 +24,34 @@ export default async ( request, context ) => {
   const store = getStore( 'kevinhoyt-com' );  
 
   if( request.method === 'POST' ) {
-    // await store.setJSON( 'status.json', [] );
-
     const body = await request.json();
 
     if( body.password !== process.env.STATUS_PASSWORD ) {
       return Response.json( {error: 'Unauthorized'}, {status: 401} );
     }
 
-    if( !body.text?.trim() ) {
-      return Response.json( {error: 'Missing status text'}, {status: 400} );
+    if( body.clear ) {
+      await store.setJSON( 'status.json', [] );    
+      return new Response( JSON.stringify( [] ), {
+        headers
+      } );        
+    }
+
+    if( !body.subject?.trim() ) {
+      return Response.json( {error: 'Missing status subject'}, {status: 400} );
+    }
+
+    if( !body.activity?.trim() ) {
+      return Response.json( {error: 'Missing status activity'}, {status: 400} );
     }
 
     const existing =
       ( await store.get( 'status.json', {type: 'json'} ) ) ?? [];
 
     const entry = {
-      text: body.text.trim(),
-      created: new Date().toISOString()
+      activity: body.activity.trim(),
+      subject: body.subject.trim(),
+      started: new Date().toISOString()
     };
 
     const updated = [entry, ... existing];
