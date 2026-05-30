@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@netlify/blobs": "^10.7.9",
     "@pinecone-database/pinecone": "^6.1.4",
     "@supabase/supabase-js": "^2.101.1",
     "better-sqlite3": "^12.10.0",
