@@ -3,7 +3,8 @@ import { getStore } from "@netlify/blobs";
 const ALLOWED_ORIGINS = new Set( [
   'https://kevinhoyt.com',
   'http://localhost:8080',
-  'http://localhost:8888'
+  'http://localhost:8888',
+  'http://localhost:5173'
 ] );
 
 const BASE_HEADERS = {
