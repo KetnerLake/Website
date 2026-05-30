@@ -9,7 +9,7 @@ const ALLOWED_ORIGINS = new Set( [
 
 const BASE_HEADERS = {
   'Access-Control-Allow-Methods': 'OPTIONS, GET, POST, PUT, DELETE',
-  'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin'
+  'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, Authorization'
 };
 
 const store = getStore( 'kevinhoyt-com' );
@@ -36,7 +36,7 @@ export default async ( request ) => {
 
   let body;
   if( mutating ) {
-    const auth = request.headers.get( 'X-Status-Access' )?.replace( 'Bearer ', '' );
+    const auth = request.headers.get( 'Authorization' )?.replace( 'Bearer ', '' );
 
     if( auth !== process.env.STATUS_PASSWORD ) {
       return new Response( JSON.stringify( {error: 'Unauthorized'} ), {status: 401, headers} );
