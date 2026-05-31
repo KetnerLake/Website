@@ -51,19 +51,19 @@ export default async ( request ) => {
       return new Response( '[]', {headers} );
     }
 
-    if( !body.subject?.trim() ) {
-      return new Response( JSON.stringify( {error: 'Missing status subject'} ), {status: 400, headers} );
+    if( !body.text?.trim() ) {
+      return new Response( JSON.stringify( {error: 'Missing status text'} ), {status: 400, headers} );
     }
 
-    if( !body.activity?.trim() ) {
-      return new Response( JSON.stringify( {error: 'Missing status activity'} ), {status: 400, headers} );
+    if( !Array.isArray( body.tags ) || body.tags.length === 0 ) {
+      return new Response( JSON.stringify( {error: 'Missing status tags'} ), {status: 400, headers} );
     }
 
     const existing = await getStatus();
     const entry = {
       id: crypto.randomUUID(),
-      activity: body.activity.trim(),
-      subject: body.subject.trim(),
+      tags: body.tags,
+      text: body.text.trim(),
       started: body.started ? new Date( body.started ).toISOString() : new Date().toISOString()
     };
     const updated = [entry, ... existing];
@@ -87,8 +87,8 @@ export default async ( request ) => {
     const updated = [... existing];
     updated[index] = {
       ... updated[index],
-      ... ( body.activity?.trim() && { activity: body.activity.trim() } ),
-      ... ( body.subject?.trim() && { subject: body.subject.trim() } ),
+      ... ( Array.isArray( body.tags ) && body.tags.length > 0 && { tags: body.tags } ),
+      ... ( body.text?.trim() && { text: body.text.trim() } ),
       ... ( body.started && { started: new Date( body.started ).toISOString() } )
     };
 
