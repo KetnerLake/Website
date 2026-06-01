@@ -64,7 +64,9 @@ export default async ( request ) => {
       id: crypto.randomUUID(),
       tags: body.tags,
       text: body.text.trim(),
-      started: body.started ? new Date( body.started ).toISOString() : new Date().toISOString()
+      started: body.started ? new Date( body.started ).toISOString() : new Date().toISOString(),
+      latitude: body.latitude ?? null,
+      longitude: body.longitude ?? null
     };
     const updated = [entry, ... existing];
 
@@ -89,7 +91,9 @@ export default async ( request ) => {
       ... updated[index],
       ... ( Array.isArray( body.tags ) && body.tags.length > 0 && { tags: body.tags } ),
       ... ( body.text?.trim() && { text: body.text.trim() } ),
-      ... ( body.started && { started: new Date( body.started ).toISOString() } )
+      ... ( body.started && { started: new Date( body.started ).toISOString() } ),
+      ... ( 'latitude' in body && { latitude: body.latitude ?? null } ),
+      ... ( 'longitude' in body && { longitude: body.longitude ?? null } )
     };
 
     await store.setJSON( 'status.json', updated );
