@@ -5,6 +5,7 @@ export default async ( request, context ) => {
     'https://ketnerlake.com',     
     'http://localhost:8888',
     'http://localhost:8000',
+    'http://localhost:8080',
     'http://localhost:5173'
   ];
   const origin = request.headers.get( 'Origin' );
