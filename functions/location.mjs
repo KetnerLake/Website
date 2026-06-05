@@ -15,7 +15,6 @@ export default async ( request, context ) => {
     'Access-Control-Allow-Headers': 'Content-Type, Accept, Origin, User-Agent'
   };
 
-  /*
   if( allowed.includes( origin ) ) {
     headers['Access-Control-Allow-Origin'] = origin;
   } else {
@@ -24,7 +23,6 @@ export default async ( request, context ) => {
       statusText: 'Bot detected'
     } );    
   }
-  */
 
   if( request.method === 'OPTIONS' ) {
     return new Response( 'OK', {
