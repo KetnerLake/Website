@@ -70,6 +70,7 @@ export default async ( request, context ) => {
         'Content-Type': 'application/json'
       }, 
       body: JSON.stringify( {
+        AdditionalFeatures: ['Core'],
         MaxResults: 5,
         IntendedUse: 'SingleUse',
 	      BiasPosition: [body.longitude, body.latitude],

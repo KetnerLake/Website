@@ -66,7 +66,9 @@ export default async ( request ) => {
       text: body.text.trim(),
       started: body.started ? new Date( body.started ).toISOString() : new Date().toISOString(),
       latitude: body.latitude ?? null,
-      longitude: body.longitude ?? null
+      longitude: body.longitude ?? null,
+      place: body.place ?? null,
+      place_id: body.place_id ?? null
     };
     const updated = [entry, ... existing];
 
@@ -93,7 +95,9 @@ export default async ( request ) => {
       ... ( body.text?.trim() && { text: body.text.trim() } ),
       ... ( body.started && { started: new Date( body.started ).toISOString() } ),
       ... ( 'latitude' in body && { latitude: body.latitude ?? null } ),
-      ... ( 'longitude' in body && { longitude: body.longitude ?? null } )
+      ... ( 'longitude' in body && { longitude: body.longitude ?? null } ),
+      ... ( 'place' in body && { place: body.place ?? null } ),      
+      ... ( 'place_id' in body && { place_id: body.place_id ?? null } )            
     };
 
     await store.setJSON( 'status.json', updated );
